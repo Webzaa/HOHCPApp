@@ -1,0 +1,15 @@
+[06-Nov-2022 11:24:36 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 43
+[16-Nov-2022 08:03:40 UTC] PHP Parse error:  syntax error, unexpected '}', expecting ']' in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Kernel.php on line 67
+[16-Nov-2022 08:03:47 UTC] PHP Parse error:  syntax error, unexpected '}', expecting ']' in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Kernel.php on line 67
+[18-Nov-2022 13:42:35 UTC] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 16
+[18-Nov-2022 13:42:51 UTC] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 16
+[18-Nov-2022 13:44:07 UTC] PHP Fatal error:  Cannot use Illuminate\Http\Request as Request because the name is already in use in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 16
+[18-Nov-2022 13:59:11 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 199233536 bytes) in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 441
+[18-Nov-2022 14:00:10 UTC] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 199233536 bytes) in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 442
+[28-Dec-2022 14:50:13 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378
+[28-Dec-2022 14:50:13 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378
+[28-Dec-2022 14:50:17 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378
+[28-Dec-2022 14:50:17 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378
+[28-Dec-2022 14:50:31 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378
+[28-Dec-2022 14:50:41 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378
+[28-Dec-2022 14:51:07 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ehjd18sx9tvp/public_html/Hohadmin/app/Http/Controllers/Api/ApiController.php on line 378

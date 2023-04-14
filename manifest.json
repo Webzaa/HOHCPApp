@@ -1,0 +1,17 @@
+{
+  "name":"HOH",
+  "short_name":"HOH",
+  "start_url":"index.php",
+  "display":"standalone",
+  "background_color":"#7b1846",
+  "theme_color":"black",
+  "scope": ".",
+  "description":"This is a HOH CP app.",
+  "icons":[
+    {
+    "src":"img/H-logo.png",                     
+    "sizes":"144x144",
+    "type":"image/png"
+    }
+  ]
+}

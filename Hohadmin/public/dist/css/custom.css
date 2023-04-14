@@ -1,0 +1,110 @@
+.navbar-white {
+    background-color: #eee !important;
+}
+
+a.brand-link {
+    background-color: #eee;
+}
+
+aside.main-sidebar.sidebar-primary.elevation-4 {
+    background-color: #811f49;
+    height: 100vh !important;
+}
+.navbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 1rem 0.5rem;
+}
+.brand-link {
+    display: block;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    transition: width .3s ease-in-out;
+    white-space: nowrap;
+}
+.nav-pills .nav-link:not(.active):hover {
+    color: #fff;
+}
+.nav-pills .nav-link {
+    color: #fff;
+}
+.nav-sidebar .nav-link p {
+    display: inline-block;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    margin-left: 5px;
+}
+.breadcrumb-item a {
+    font-size: 25px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #811f49 !important;
+    border-color: #811f49 !important;
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #811f49 !important;
+    border-color: #811f49 !important;
+}
+.navbar-badge {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 2px 4px;
+    position: absolute;
+    right: 5px;
+    top: 9px;
+}
+.navbar-badge::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+.dropdown-menu-lg {
+    max-width: 271px;
+    min-width: 150px;
+    padding: 0;
+}
+.main-footer {
+    background: #f4f6f9;
+    border-top: none;
+    color: #869099;
+    padding: 1rem;
+}
+
+span.select2-selection.select2-selection--single {
+    height: 35px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 33px !important;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+    cursor: default;
+    padding-left: 2px;
+    padding-right: 5px;
+    color: #000 !important;
+}
+li.nav-item.active {
+    font-weight: 900;
+}
