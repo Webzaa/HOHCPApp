@@ -12,45 +12,24 @@ include 'constant.php';
     }
 
 
-    $collateral_array  = array('Emailer','SMS Script','Brouchure','WhatsApp','Videos','Gallery','Plans');
+    $collateral_array  = array('Emailer','SMS Script','Brouchure','WhatsApp','Videos','Gallery');
 
 
 
-
+    //echo APIURL.'api/GetProjectDetails?token='.$_COOKIE['token'].'xt&project_id='.$_GET['project_id'];
 
     $curl = curl_init();
 
-
-
     curl_setopt_array($curl, array(
-
-      CURLOPT_URL => APIURL.'api/GetProjectDetails',
-
-      CURLOPT_RETURNTRANSFER => true,
-
-      CURLOPT_ENCODING => '',
-
-      CURLOPT_MAXREDIRS => 10,
-
-      CURLOPT_TIMEOUT => 0,
-
-      CURLOPT_FOLLOWLOCATION => true,
-
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-
-      CURLOPT_CUSTOMREQUEST => 'POST',
-
-      CURLOPT_POSTFIELDS =>'{"token":"'.$_COOKIE['token'].'","project_id":"'.$_POST['project_id'].'"}',
-
-      CURLOPT_HTTPHEADER => array(
-
-        'Content-Type: application/json'
-
-      ),
-
+    CURLOPT_URL => APIURL.'api/GetProjectDetails?token='.$_COOKIE['token'].'&project_id='.$_GET['project_id'],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
     ));
-
-
 
     $response = curl_exec($curl);
 
@@ -61,6 +40,7 @@ include 'constant.php';
     
 
     $result = json_decode($response);
+    //echo '<pre>'; print_r($result);exit;
 
     if(isset($result->error) && $result->error == 'Unauthorised'){
 
@@ -71,8 +51,9 @@ include 'constant.php';
     $Project = $result->Project[0];
 
     $ProjectCollateral = $result->ProjectCollateral;
+    $ProjectCollateralJson = json_encode($ProjectCollateral,FILTER_SANITIZE_STRING);
 
-    //echo '<pre>'; print_r($result);exit;
+    //echo '<pre>'; print_r($ProjectCollateral);exit;
 
     $brouchure = '';
 
@@ -102,34 +83,14 @@ include 'constant.php';
 
 ?>
 
-<!-- <html lang="en">
+
 
 <head>
 
-    <meta charset="utf-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>HOH Mobile App</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="./css/style1.css">
-
-    <link rel="stylesheet" href="./css/responsive1.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-
-</head> -->
-
-<head>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  
     <link rel="stylesheet" href="css/lightgallery.css" />
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 
 </head>
 
@@ -142,7 +103,7 @@ include 'constant.php';
     body {
 
         background-color: #fff;
-
+        font-family: "Roboto", sans-serif !important;
         background-image: none;
 
     }
@@ -151,6 +112,22 @@ include 'constant.php';
     margin: 0;
 
   }
+  
+  #SendBrochureWhatsApp {
+    text-align: center;
+}
+
+#SendBrochureWhatsApp img {
+    width: 50px;
+}
+  
+  #SendBrochureEmailer{
+       text-align: center;
+  }
+  
+  #SendBrochureEmailer img {
+    width: 50px;
+}
     
     .carousel-control-next-icon {
     padding: 20px;
@@ -160,10 +137,6 @@ include 'constant.php';
 .carousel-control-prev-icon {
     padding: 20px;
     background-color: #000;
-}
-
-#third-main span {
-    padding: 0px 10px;
 }
 
     section#footerpage20\ sticky-bottom {
@@ -603,9 +576,9 @@ section#eagleridge-carousel {
 
                             <a id="my_download" href="<?php echo $brouchure; ?>" download="<?php echo $Project->project_name; ?>_brochure" style="display:none;"></a>
 
-                            <!-- <button onClick="download_file()" class="download-btn">Download Brochure <i
+                            <button type="button" class="download-btn"  data-bs-toggle="modal" data-bs-target="#BrochureModal">Download Brochure <i
 
-                                    class="fa-solid fa-angle-down"></i></button> -->
+                                    class="fa-solid fa-angle-down"></i></button>
 
                         </div>
 
@@ -623,6 +596,30 @@ section#eagleridge-carousel {
 
     <!-- eagleridge main end -->
 
+
+<!-- Modal -->
+<div class="modal fade" id="BrochureModal" tabindex="-1" aria-labelledby="BrochureModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="BrochureModalLabel">Share Via</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col" id="SendBrochureWhatsApp" data-id="<?php echo $brouchure; ?>"><img src="https://cpapp.houseofhiranandani.com/img/whatsapp-logo.png" alt=""></div>
+            <div class="col" id="SendBrochureEmailer" data-id="<?php echo $brouchure; ?>"><img src="https://cpapp.houseofhiranandani.com/img/Icons/emailer.png" alt=""></div>
+          </div>
+
+          <div class="row" id="emailerMesg"></div>
+      </div>
+      <!--<div class="modal-footer">-->
+      <!--  <button type="button" class="btn btn-primary">Whatsapp</button>-->
+      <!--  <button type="button" class="btn btn-primary">Email</button>-->
+      <!--</div>-->
+    </div>
+  </div>
+</div>
 
 
 
@@ -965,16 +962,18 @@ section#eagleridge-carousel {
 <br>
 <br>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+<script src="js/bootstrap.bundle.min.js"></script>
+
+<script src="js/jquery.min.js"></script>
 
 
 <script src="js/lightgallery-all.js"></script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script type="text/javascript" src="js/owl.carousel.min.js"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript">
         $('#elevationowl').owlCarousel({
             loop: false,
             margin: 0,
@@ -1001,8 +1000,9 @@ section#eagleridge-carousel {
     </script>
 
     <script type="text/javascript">
-    $(document).on('click', '#my_download', function () {
-        $('#loading').show(); 
+    $(document).on('click', '.download-btn', function () {
+        $('#emailerMesg').html('');
+        //$('#loading').show(); 
 
         setTimeout(function () {
             $('#loading').hide(); 
@@ -1018,6 +1018,24 @@ section#eagleridge-carousel {
 
   })
 let Collateral = [];
+
+// $(document).ready(function(){
+//     var ProjectCollateral = '<?php echo json_decode($ProjectCollateralJson); ?>';
+//     console.log(ProjectCollateral);
+//         // $.each(ProjectCollateral,function(arr, i){
+//         //     var id= i.collateral_type
+//         //     var type = id.split(' ').join('_');
+//         //     console.log('#lightgallery'+type);
+//         //     $('#lightgallery'+type).lightGallery({
+//         //         thumbnail: false
+//         //     });
+            
+
+//         // })
+
+// })
+    
+
 
 GetProjectDetails();
 
@@ -1049,22 +1067,22 @@ $(document).on('click', '#lg-download', function () {
   function GetProjectDetails() {
 
     var fd = new FormData();
-
-    fd.append('token', '<?php echo $_COOKIE['token'] ?>');
-
-    fd.append('project_id', '<?php echo $_POST['project_id'] ?>');
+    var project_id = '<?php echo $_GET['project_id'] ?>';
+    var token = '<?php echo $_COOKIE['token'] ?>';
+    // fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+    // fd.append('project_id', '<?php echo $_GET['project_id'] ?>');
 
    $.ajax({
 
-      url: '<?php echo APIURL; ?>api/GetProjectDetails',
+      url: '<?php echo APIURL; ?>api/GetProjectDetails?token='+token+'&project_id='+project_id,
 
-      data: fd,
+      //data: fd,
 
       processData: false,
 
       contentType: false,
 
-      type: 'POST',
+      type: 'GET',
 
       success: function (data) {
 
@@ -1075,8 +1093,8 @@ $(document).on('click', '#lg-download', function () {
             var type = id.split(' ').join('_');
 
             $('#lightgallery'+type).lightGallery({
-    thumbnail: false
-});
+                thumbnail: false
+            });
             
 
         })
@@ -1492,17 +1510,90 @@ raf();
 
 
 
-        $(document).on('click',"#GenerateLead",function(){
+        $(document).on('click',"#SendBrochureWhatsApp",function(){
 
             var id = $(this).data('id'); 
 
-            $("#project_id").val(id);
-
-            $("#generateleads").submit();
+            mixpanel.track("Share WhatsApp Brochure", {
+                "PageName": lastPathSegment.replace(".php", ""),
+                "collateral": "Share WhatsApp Brochure",
+                "ProjectName":project_name,
+                "$user_id": "<?php echo $_COOKIE['username']; ?>",
+                "collateralevent": "Share WhatsApp Brochure",
+            });       
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            
+                var sUrl = "Link to share";
+                var sMsg = encodeURIComponent(id);
+                var whatsapp_url = "whatsapp://send?text=" + sMsg;
+                window.location.href = whatsapp_url;
+            }
+            else {
+                alert("Whatsapp client not available.");
+            }
 
         
 
-        })
+        });
+
+        
+        $(document).on('click',"#SendBrochureEmailer",function(e){
+
+            e.preventDefault();
+            $('#loading').show(); 
+            var Url = $(this).data('id'); 
+            
+
+            mixpanel.track("Share Email Brochure", {
+                "PageName": lastPathSegment.replace(".php", ""),
+                "collateral": "Share Email Brochure",
+                "ProjectName":project_name,
+                "$user_id": "<?php echo $_COOKIE['username']; ?>",
+                "collateralevent": "Share Email Brochure",
+            }); 
+            
+            var fd = new FormData();
+
+            fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+            fd.append('Url', Url);
+            fd.append('project_name', project_name);
+
+
+        $.ajax({
+
+            url: '<?php echo APIURL; ?>api/SendBrochureEmailer',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+
+                //$('#loading').hide(); 
+
+                console.log(data.msg );
+
+                $('#emailerMesg').html('<span class="alert alert-success">' + data.msg + '</span>');
+                if(data.success){
+                    setTimeout(function () {
+                        //alert('done')
+                        $("#BrochureModal").modal("hide");
+                        $("#loading").hide();
+                    }, 1500);
+
+                }
+                
+               
+                //$('#CompanyProfile').modal('hide');
+
+            }
+
+        });
+
+
+
+        });
+
+        
 
     </script>
 

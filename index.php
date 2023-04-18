@@ -56,17 +56,15 @@
     $ip_address = get_client_ip();
     
 
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
+    if (!empty($_POST['OTP1']) && !empty($_POST['token'])) {
 
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $latitude = $_POST['lat'];
-        $longitude = $_POST['long'];
+        $OTP = $_POST['OTP1'].$_POST['OTP2'].$_POST['OTP3'].$_POST['OTP4'].$_POST['OTP5'].$_POST['OTP6'];        
+        $token = $_POST['token'];
 
     
-        $url = APIURL.'api/login';
-        $data = '{"email":"'.$username.'","password": "'.$password.'","ip_address": "'.$ip_address.'","latitude": "'.$latitude.'","longitude": "'.$longitude.'"}';        
+        $url = APIURL.'api/VerifyOTPLogin';
+        $data = '{"OTP":"'.$OTP.'","token": "'.$token.'"}';        
 
         $result = APICALL($url,$data);
 
@@ -79,13 +77,13 @@
           
 
           $_SESSION['valid'] = true;
-          $_SESSION['token'] = $result->success->token->name;  
+          $_SESSION['token'] = $token;  
           $_SESSION['status'] = $result->status;
           $_SESSION['name'] = $result->user->name;
           $_SESSION['username'] = $result->user->email;
 
           setcookie('valid', true, time() + (86400 * 30), "/");
-          setcookie('token', $result->success->token->name, time() + (86400 * 30), "/");
+          setcookie('token', $token, time() + (86400 * 30), "/");
           setcookie('status', $result->status, time() + (86400 * 30), "/");
           setcookie('name', $result->user->name, time() + (86400 * 30), "/");
           setcookie('username', $result->user->email, time() + (86400 * 30), "/");          
@@ -143,6 +141,7 @@
        } 
 
     }
+    
 
 ?>
 
@@ -154,28 +153,19 @@
 
 <title>HOH Mobile App</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="./css/stylenewest.css">
-
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./css/style.css">
 <link rel="stylesheet" href="./css/responsive.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-
-<link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+<link rel="stylesheet" href="css/all.min.css" />
+<link href="css/smoothness/jquery-ui.css" rel="Stylesheet">
 
 <link rel="manifest" href="manifest.json">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 
 
@@ -193,32 +183,10 @@ mixpanel.track('Login Page');
 
 
 
-
-
-<!-- microsoft clarity -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "fd2le02ady");
-</script>
-
 </head>
 
 <style type="text/css">
 
-    @import "compass/css3";
-
-@import url(https://fonts.googleapis.com/css?family=Belleza);
-
-body {
-    background: url('https://subtlepatterns.com/patterns/dark_wall.png');
-}
-
-form.form-signin.mt-5 {
-    padding: 20px;
-}
 
 #popup {
  padding: 10px;
@@ -235,6 +203,14 @@ form.form-signin.mt-5 {
     z-index: 9999;
     text-align: center;
     
+}
+
+section#OTP {
+    background-image: url(../img/mobbgnew1-900.png);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+    background-size: 100% 100%;
 }
 
 
@@ -373,6 +349,90 @@ button#registerbtn {
 }
 
 
+.title {
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+.title h3 {
+  font-weight: bold;
+}
+.title p {
+  font-size: 12px;
+  color: #118a44;
+}
+.title p.msg {
+  color: initial;
+  text-align: initial;
+  font-weight: bold;
+}
+
+.otp-input-fields {
+  margin: auto;
+  background-color: transparent;
+  /*box-shadow: 0px 0px 8px 0px #02025044;*/
+  max-width: 400px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+}
+.otp-input-fields input {
+  height: 40px;
+  width: 40px;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #000;
+  text-align: center;
+  outline: none;
+  font-size: 16px;
+  /* Firefox */
+}
+.otp-input-fields input::-webkit-outer-spin-button, .otp-input-fields input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.otp-input-fields input[type=number] {
+  -moz-appearance: textfield;
+}
+.otp-input-fields input:focus {
+  border-width: 2px;
+  border-color: #287a1a;
+  font-size: 20px;
+}
+
+.result {
+  max-width: 400px;
+  margin: auto;
+  padding: 24px;
+  text-align: center;
+}
+.result p {
+  font-size: 24px;
+  font-family: "Antonio", sans-serif;
+  opacity: 1;
+  transition: color 0.5s ease;
+}
+.result p._ok {
+  color: green;
+}
+.result p._notok {
+  color: red;
+  border-radius: 3px;
+}
+form.otp-form {
+        padding: 0px 15px;
+}
+p.message {
+    text-align: center;
+    color: #fff;
+}
+h4.head{
+    text-align: center;
+}
+
 </style>
 <div id="loading" >
 <div class="container">
@@ -462,7 +522,7 @@ button#registerbtn {
 
                         <div class="button col-lg-10 col-md-10 offset-md-1">
 
-                            <button type="submit" class="btn btn-primary login btn-lg btn-block">LOGIN</button> <br>
+                            <button type="submit" class="btn btn-primary login btn-lg btn-block" id="LoginAgent">LOGIN</button> <br>
 
                             
 
@@ -494,7 +554,7 @@ button#registerbtn {
 
                         <div class="mb-3 col-lg-4 col-md-8 offset-lg-4 offset-md-2 mt-4">
 
-                            <span style="color: #edd55d;"><?php echo $msg; ?></span>
+                            <span style="color: #edd55d;" id="error_msg"><?php echo $msg; ?></span>
 
                         </div>
 
@@ -513,7 +573,53 @@ button#registerbtn {
         </div>
 
     </section>
+    <section  id="OTP" style="display: none;">
+    <div class="container">
 
+<div class="row">
+
+    <div class="col-lg-10 col-md-10 offset-lg-1 offset-md-1">
+
+        <h4 class="head"> OTP VERIFICATION </h4>
+        <p class="message">Please enter OTP to verify</p>
+        <!-- <form>
+  <input autocomplete="one-time-code" required/>
+  <input type="submit">
+</form>                     -->
+          <form id="FormVerifyOTP" role="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post" class="otp-form" name="otp-form">
+
+
+<div class="otp-input-fields">
+<input type="number" id="OTP1" name="OTP1" class="otp__digit otp__field__1">
+<input type="number" id="OTP2" name="OTP2" class="otp__digit otp__field__2">
+<input type="number" id="OTP3" name="OTP3" class="otp__digit otp__field__3">
+<input type="number" id="OTP4" name="OTP4" class="otp__digit otp__field__4">
+<input type="number" id="OTP5" name="OTP5" class="otp__digit otp__field__5">
+<input type="number" id="OTP6" name="OTP6" class="otp__digit otp__field__6">
+<input type="hidden" id="token" name="token">
+<input type="hidden" id="user_id" name="user_id">
+</div>
+
+<br>
+<br>
+<button type="submit" class="btn btn-primary login btn-lg btn-block" id="verify_OTP">Submit</button>
+
+<div class="mb-3 col-lg-4 col-md-8 offset-lg-4 offset-md-2 mt-4">
+
+                            <span style="color: #edd55d;" id="error_msg_OTP"></span>
+
+                        </div>
+
+</form>
+
+
+
+    </div>
+
+</div>
+
+</div>
+    </section>
     <section id="SignUp" style="display: none;">
 
         <div class="container">
@@ -570,18 +676,11 @@ button#registerbtn {
 
                             <h6 style="color: #fff; text-align: center;">Already have an account</h6>
 
-                            <button type="button" class="btn btn-primary login btn-lg btn-block" id="newloginbtn">LOGIN</button>
+                            <button type="button" class="btn btn-primary btn-lg btn-block" id="newloginbtn">LOGIN</button>
 
                         </div>
 
-                     
-
-
-
                     </form>
-
-
-
                 </div>
 
             </div>
@@ -624,12 +723,69 @@ button#registerbtn {
 
 
 
+    
+    <script src="js/bootstrap.bundle.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
     <script type="text/javascript">
+        // //oTP new
+        // if ('OTPCredential' in window) {
+        //     window.addEventListener('DOMContentLoaded', e => {
+        //         const input = document.querySelector('input[autocomplete="one-time-code"]');
+        //         if (!input) return;
+        //         const ac = new AbortController();
+        //         const form = input.closest('form');
+                
+        //         if (form) {
+        //         form.addEventListener('submit', e => {
+        //             ac.abort();
+        //         });
+        //         }
+        //         navigator.credentials.get({
+        //         otp: { transport:['sms'] },
+        //         signal: ac.signal
+        //         }).then(otp => {
+        //             alert('form found');
+        //             input.value = otp.code;
+        //             if (form) form.submit();
+        //         }).catch(err => {
+        //             alert(err);
+        //         });
+        //     });
+        //     }
+        
+        // OTP old
+        var otp_inputs = document.querySelectorAll(".otp__digit")
+        var mykey = "0123456789".split("")
+        otp_inputs.forEach((_)=>{
+             _.addEventListener("keyup", handle_next_input)
+        })
+    function handle_next_input(event){
+        let current = event.target
+        let index = parseInt(current.classList[1].split("__")[2])
+        current.value = event.key
+        
+        if(event.keyCode == 8 && index > 1){
+            current.previousElementSibling.focus()
+        }
+        if(index < 6 && mykey.indexOf(""+event.key+"") != -1){
+            var next = current.nextElementSibling;
+            next.focus()
+        }
+        var _finalKey = ""
+        for(let {value} of otp_inputs){
+            _finalKey += value
+        }
+        if(_finalKey.length == 6){
+            document.querySelector("#_otp").classList.replace("_notok", "_ok")
+            document.querySelector("#_otp").innerText = _finalKey
+        }else{
+            document.querySelector("#_otp").classList.replace("_ok", "_notok")
+            document.querySelector("#_otp").innerText = _finalKey
+        }
+    }
 
     function getLocation() {
         if(navigator.geolocation) {
@@ -651,11 +807,55 @@ button#registerbtn {
     }
     //request for location
     getLocation();
-
-        $(document).on('click','.login',function(e){
+    
+        $(document).on('click','#LoginAgent',function(e){
             e.preventDefault();
             $("#loading").show();
-            $(".form-signin").submit();
+            //$(".form-signin").submit();
+            var fd = new FormData();
+
+           
+            fd.append('email', $('#exampleInputEmail1').val());
+            fd.append('password', $('#exampleInputPassword1').val());
+            fd.append('latitude', $('#lat').val());
+            fd.append('longitude', $('#long').val());
+            fd.append('ip_address', '<?php echo $ip_address; ?>');
+
+            $.ajax({
+                url: '<?php echo APIURL; ?>api/login',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                   
+
+                    if(data.msg == "You have Login Successfully"){
+                        var token =  data.success.token.name
+                        var user_id = data.user.id;
+                        
+                        $("#error_msg").html('OTP sent to your registrered mobile number.');
+                        $("#token").val(token);
+                        $("#user_id").val(user_id);
+                        setTimeout(function () {
+
+                            $("#login").hide();
+                            $("#OTP").show();
+                            $("#loading").hide();
+                           
+                           
+
+                        }, 2000);
+                    }
+                    else{
+                        $("#error_msg").html(data.msg);
+                    }
+                   
+                    
+
+                 
+                }
+            });
         })
 
        if (navigator.onLine) {
@@ -719,7 +919,121 @@ button#registerbtn {
                 $('#login').show();
 
             });
+            
+            
+            $(document).on('click', '#verify_OTP', function (e) {
+                e.preventDefault();
+                var valid = true;
+                $("#loading").show();
+                var OTP1 = $("#OTP1").val();
+                var OTP2 = $("#OTP2").val();
+                var OTP3 = $("#OTP3").val();
+                var OTP4 = $("#OTP4").val();
+                var OTP5 = $("#OTP5").val();
+                var OTP6 = $("#OTP6").val();
+                var OTP = OTP1+OTP2+OTP3+OTP4+OTP5+OTP6;
+                //console.log(OTP);return false;
+                if(OTP1.trim() == ''){
+                    $("#OTP1").addClass('error');
+                    valid = false;
+                }
+                else{
+                    $("#OTP1").removeClass('error');
+                }
 
+
+                if(OTP2.trim() == ''){
+                    $("#OTP2").addClass('error');
+                    valid = false;
+                }
+                else{
+                    $("#OTP2").removeClass('error');
+                }
+
+                if(OTP3.trim() == ''){
+                    $("#OTP3").addClass('error');
+                    valid = false;
+                }
+                else{
+                    $("#OTP3").removeClass('error');
+                }
+
+
+                if(OTP4.trim() == ''){
+                    $("#OTP4").addClass('error');
+                    valid = false;
+                }
+                
+                else{
+                    $("#OTP4").removeClass('error');
+                }
+
+                
+                if(OTP5.trim() == ''){
+                    $("#OTP5").addClass('error');
+                    valid = false;
+                }
+                else{
+                    $("#OTP5").removeClass('error');
+                }
+
+                
+                if(OTP6.trim() == ''){
+                    $("#OTP6").addClass('error');
+                    valid = false;
+                }
+                else{
+                    $("#OTP6").removeClass('error');
+                }
+
+
+                if(!valid){
+                    return false;
+                }
+                var fd = new FormData();
+
+                var token = $('#token').val();
+                var user_id = $('#user_id').val();
+                fd.append('OTP', OTP);
+                fd.append('token',token);
+                fd.append('user_id', user_id);
+
+                $.ajax({
+                url: '<?php echo APIURL; ?>api/VerifyOTPLogin',
+                data: fd,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    var html = '';
+                    console.log(data.msg)
+                   
+                    if(data.msg == "You have Login Successfully"){
+                        
+                        $.cookie('valid', true, { expires: 1, path: '/' });
+                        $.cookie('token', token, { expires: 1, path: '/' });
+                        $.cookie('status', data.status, { expires: 1, path: '/' });
+                        $.cookie('username', data.user[0].email, { expires: 1, path: '/' });
+                        $.cookie('name', data.user[0].name, { expires: 1, path: '/' });
+                       
+                        setTimeout(function () { 
+                            $("#loading").hide();   
+                            $("#error_msg_OTP").html(data.msg);                        
+                            window.location.replace('homescreen.php');
+                        }, 2000);
+                    }
+                    else{
+                        $("#error_msg_OTP").html(data.msg);
+                        $("#loading").hide();
+                    }
+                   
+                    
+
+                 
+                }
+            });
+
+            })
             $(document).on('click', '#registerbtn', function (e) {
 
                 e.preventDefault();

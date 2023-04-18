@@ -26,9 +26,8 @@
     background-repeat: no-repeat;
 
     background-position: center;
-
+font-family: "Roboto", sans-serif !important;
     height: 100vh;
-    font-family: "Roboto", sans-serif !important;
 
     padding-bottom: 100px;
 
@@ -195,7 +194,7 @@ span.alert.alert-success {
 
             <div class="col-lg-6 col-6 arroww"><a href="homescreen.php" ><img src="img/lessthanarrow-new.png" class="singlearrow"></a>
 
-                <span> &nbsp; Generate Lead</span>
+                <span> &nbsp; Lead</span>
 
             </div>
 
@@ -395,15 +394,15 @@ span.alert.alert-success {
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script src="js/jquery-ui.js"></script>
 
-<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="js/jquery-migrate-3.0.0.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="js/select2.min.js"></script>
 
 
 <script type="text/javascript">
@@ -477,29 +476,21 @@ $(document).ready(function(){
 
          var fd = new FormData();    
 
-        fd.append( 'token', '<?php echo $_COOKIE['token'] ?>' );
-
-        fd.append( 'email', '<?php echo $_COOKIE['username'] ?>' );
-
-        
-
-        
-
-        
-
+        var token = '<?php echo $_COOKIE['token'] ?>';
+        var username = '<?php echo $_COOKIE['username'] ?>';
 
 
         $.ajax({
 
-          url: '<?php echo APIURL; ?>api/GetProjects',
+          url: '<?php echo APIURL; ?>api/GetProjects?token='+token+'&email='+username,
 
-          data: fd,
+          //data: fd,
 
           processData: false,
 
           contentType: false,
 
-          type: 'POST',
+          type: 'GET',
 
           success: function(data){
 
@@ -634,7 +625,13 @@ $(document).ready(function(){
 
         }
 
-
+        if (navigator.onLine) {
+            console.log("You are online!");
+            $('.add-lead').show();
+        }else{
+            console.log("You are offline!");
+            $('.add-lead').hide();
+        }
 
         $(document).on('click', '.add-lead', function (e) {
 

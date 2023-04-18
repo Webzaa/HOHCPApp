@@ -1,5 +1,8 @@
 <?php
+//echo'<pre>';print_r($_COOKIE);exit;
 include 'header.php';
+
+//echo'<pre>';print_r($_COOKIE);exit;
 ?>
 
 <!doctype html>
@@ -206,7 +209,7 @@ curl_close($curl);
         padding: 15px 40px;
     }
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/css/shepherd.css" />
+<link rel="stylesheet" href="css/shepherd.css" />
 
 
 <body>
@@ -292,19 +295,7 @@ curl_close($curl);
 
                         </h2>
                         <?php if($_COOKIE['status'] == '1'){ ?>
-                        <div class="d-flex justify-content-between">
-
-                         
-
-                            <p></p>
-
-                            <div class="dropdown">
-
-                               
-
-                            </div>
-
-                          
+                        <div class="d-flex justify-content-between">                          
 
                             <a href="profile.php" class="anchor-profile" id="veiw_profile">VIEW PROFILE</a>
 
@@ -333,7 +324,7 @@ curl_close($curl);
             <?php if($_COOKIE['status'] == '1'){ ?>
             <div class="row">
 
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mainhomescreen"  id="leads">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12 mainhomescreen" id="leads">
 
                     <a href="leads.php" style="text-decoration: none;">
 
@@ -355,7 +346,7 @@ curl_close($curl);
 
             <?php  } ?>
 
-            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mainhomescreen" id="projectalloted" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 mainhomescreen"  id="projectalloted">
 
                 <a href="projectalloted.php" style="text-decoration: none; color: #7a1845;">
 
@@ -417,18 +408,11 @@ curl_close($curl);
     <!-- ---------------------end cdc profile-------------------------- -->
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-
-    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/shepherd.js@10.0.1/dist/js/shepherd.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery-migrate-3.0.0.min.js"></script>
+    <script src="js/shepherd.min.js"></script>
 
 
 
@@ -446,26 +430,8 @@ curl_close($curl);
 
         }
 
-        $(window).on('load', function () {
-
-            gtag('event', 'Login', {
-                'event_category': '<?php echo $_COOKIE['username'] ?>',
-                'event_label': 'LoginDone',
-                'value': status
-            });
-            // Pageview
-            gtag('event', 'page_view', {
-                "page_title": "Home-Screen"
-            });
-
-        });
-
-
-
-
         $('#loading').hide();
         $(document).on('click', '#projectalloted', function () {
-
             window.location.href = "projectalloted.php";
             mixpanel.track("click on projects list", {
                 "PageName": lastPathSegment.replace(".php", ""),
@@ -478,7 +444,6 @@ curl_close($curl);
         })
 
         $(document).on('click', '#view_profile', function () {
-
             mixpanel.track("click on view profile", {
                 "PageName": lastPathSegment.replace(".php", ""),
                 "collateral": "Home page",
@@ -490,9 +455,7 @@ curl_close($curl);
         })
 
         $(document).on('click', '#leads', function () {
-
             window.location.href = "leads.php";
-
              mixpanel.track("click on leads", {
                 "PageName": lastPathSegment.replace(".php", ""),
                 "collateral": "Home page",
@@ -506,8 +469,11 @@ curl_close($curl);
             $('#loading').show();
         })
 
-        $(document).on('click', "#cover", function () {
-            $('#loading').show();
+        $(document).on('click', ".refresh", function () {
+            $('#loading').show();    
+            console.log('Cache delete');     
+            //CacheStorage.delete('HOHCPCache-v1');
+            caches.delete('HOHCPCache-v1');
             location.reload();
         })
 
@@ -537,6 +503,8 @@ curl_close($curl);
             $('#loading').show();
         })
 
+
+       
 
         $(document).on('click', '#collaterals', function () {
             $('#loading').show();

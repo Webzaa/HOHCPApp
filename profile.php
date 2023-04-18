@@ -85,9 +85,8 @@ $user = $result->user[0];
 
     body {
 
-        font-family: "Roboto", sans-serif !important;
         background-color: #fff;
-
+font-family: "Roboto", sans-serif !important;
         background-image: none;
 
     }
@@ -198,7 +197,7 @@ img.manageprofilephoto {
 
                 <div class="row d-flex justify-content-between eight-main">
 
-                    <div class="col-lg-6 col-6 arroww"><a href="homescreen.php" ><img src="img/lessthanarrow-new.png" class="singlearrow"></a> &nbsp;<span>Profile</span></div>
+                    <div class="col-lg-6 col-6 arroww"><a href="homescreen.php" ><img src="img/lessthanarrow-new.png" class="singlearrow"></a> &nbsp; Profile</span></div>
 
                     <div class="col-lg-6 col-6"> <button type="button btn" class="pagesixhelp" data-bs-toggle="modal" data-bs-target="#myModal">Help</button> </div>
 
@@ -227,25 +226,23 @@ img.manageprofilephoto {
 <section id="main-profile">
     <div class="container">
         <!-- <div class="row"> -->
-            <div class="row profilebtn"  id="manageprofile">
+            <div class="row profilebtn" id="manageprofile">
                 <div class="col-2">
                     <img src="img/Icons/manage-profile.png" class="manageprofilephoto">
                 </div>
                 <div class="col-10">
-                <a href="manageprofile.php" style="color: #000; text-decoration: none;">Manage Profile
+                <a style="color: #000; text-decoration: none;">Manage Profile</a>
                     <p style="font-size: 10px;">Change your profile details & password</p>
-                    </a>
                 </div>
                 
             </div>
-             <div class="row profilebtn" id="cdcprofile">
+             <div class="row profilebtn"  id="cdcprofile">
                 <div class="col-2">
                     <img src="img/briefcase.png" class="manageprofilephoto">
                 </div>
                 <div class="col-10">
-                    <a  href="cdcprofile.php" style="color: #000; text-decoration: none;">CDC Profile
+                    <a style="color: #000; text-decoration: none;">CDC Profile</a>
                     <p style="font-size: 10px;">Add the Details</p>
-                    </a>
                 </div>
             </div>
         <!-- </div> -->
@@ -273,9 +270,8 @@ img.manageprofilephoto {
         });
 
          $(document).on('click', '#manageprofile', function () {
-            $('#loading').show(); 
-
             window.location.href = "manageprofile.php";
+            $('#loading').show(); 
 
             mixpanel.track("Click on Manage Profile", {
                 "PageName": lastPathSegment.replace(".php", ""),
@@ -287,9 +283,9 @@ img.manageprofilephoto {
         })
 
          $(document).on('click', '#cdcprofile', function () {
-            $('#loading').show(); 
 
             window.location.href = "cdcprofile.php";
+            $('#loading').show(); 
 
             mixpanel.track("Click on CDC Profile", {
                 "PageName": lastPathSegment.replace(".php", ""),

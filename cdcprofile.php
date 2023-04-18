@@ -134,7 +134,7 @@ $user = $result->user[0];
         <div class="container">
             <div class="row d-flex justify-content-between eight-main">
                 <div class="col-lg-6 col-6 arroww"><span><a href="profile.php"><img src="img/lessthanarrow-new.png"
-                                class="singlearrow"></a> &nbsp; Profile</span>
+                                class="singlearrow"></a> &nbsp;CDC Profile</span>
                 </div>
                 <div class="col-lg-6 col-6"> <button type="button btn" class="pagesixhelp" data-bs-toggle="modal"
                         data-bs-target="#myModal">Help</button>
@@ -209,11 +209,21 @@ $user = $result->user[0];
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script>
 
     $(document).ready(function () {
+
+        if (navigator.onLine) {
+            console.log("You are online!");
+            $('#AddProfile').show();
+            $('#AddCDCProfile').show();
+        }else{
+            console.log("You are offline!");
+            $('#AddProfile').hide();
+            $('#AddCDCProfile').hide();
+        }
         $('#loading').hide();
     })
    
@@ -337,20 +347,22 @@ $user = $result->user[0];
             "collateralevent": "Get CDC Profile",
         });
 
-        var token = '<?php echo $_COOKIE['token'] ?>';
+        var token = '<?php echo $_COOKIE['token']; ?>';
+        var username = '<?php echo $_COOKIE['username']; ?>';
 
         var fd = new FormData();
-        let logo = $('#logo')[0].files;
-        fd.append('token', token);
-        fd.append('profile_id', profile_id);
-        fd.append('username', '<?php echo $_COOKIE['username'] ?>');
+       
+        // fd.append('token', token);
+        // fd.append('profile_id', profile_id);
+        // fd.append('username', '<?php echo $_COOKIE['username'] ?>');
 
         $.ajax({
 
-            url: '<?php echo APIURL; ?>api/GetCDCProfile',
-            data: fd,
-            async: false,
-            type: 'POST',
+            url: '<?php echo APIURL; ?>api/GetCDCProfile?token='+token+'&profile_id='+profile_id+'&username='+username,
+            //data: fd,
+            processData: false,
+            contentType: false,
+            type: 'GET',
             success: function (data) {
 
                 var html = '';
@@ -385,12 +397,6 @@ $user = $result->user[0];
 
 
             },
-
-            cache: false,
-
-            contentType: false,
-
-            processData: false
 
         })
 

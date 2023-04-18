@@ -7,16 +7,7 @@
     }
 ?>
 
-<!-- <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HOH Mobile App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style1.css">
-    <link rel="stylesheet" href="./css/responsive1.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-</head> -->
+
 
 <?php  include 'header.php'; ?>
 
@@ -37,7 +28,9 @@
     padding: 0;
 }
 
-
+body{
+    font-family: "Roboto", sans-serif !important;
+}
 
 .modal-content{
     position: relative;
@@ -46,7 +39,7 @@
     margin-top: 50%;
 }
 </style>
-<form id="ProjectLeads" action="project_details.php" method="POST">
+<form id="ProjectLeads" action="project_details.php" method="GET">
     <input type="hidden" name="project_id" id="project_id">
     
 </form>
@@ -54,7 +47,7 @@
     <section id="third-main">
         <div class="container">
             <div class="row d-flex justify-content-between">
-                <div class="col-lg-6 col-9"><a href="homescreen.php"><img src="img/lessthanarrow-new.png" class="singlearrow"></a><span>Projects Alloted</span></div>
+                <div class="col-lg-6 col-9"><a href="homescreen.php"><img src="img/lessthanarrow-new.png" class="singlearrow"></a>&nbsp;&nbsp;<span>Projects Alloted</span></div>
                 <div class="col-lg-6 col-3"> <button type="button btn" class="pagesixhelp" data-bs-toggle="modal" data-bs-target="#myModal">Help</button> </div>
             </div>
         </div>
@@ -100,10 +93,12 @@
   </div>
 </div>
 <!-- ---------------------end cdc profile-------------------------- -->
+<script src="js/bootstrap.bundle.min.js"></script>
 
+<script src="js/jquery.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+
 <script>
 
  $('#loading').hide(); 
@@ -124,18 +119,19 @@
 
         function GetProjects() {
             var fd = new FormData();
-
-            fd.append('token', '<?php echo $_COOKIE['token'] ?>');
-            fd.append('email', '<?php echo $_COOKIE['username'] ?>');
+            var token = '<?php echo $_COOKIE['token'] ?>';
+            var username = '<?php echo $_COOKIE['username'] ?>';
+            // fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+            // fd.append('email', '<?php echo $_COOKIE['username'] ?>');
 
             console.log(fd)
 
             $.ajax({
-                url: '<?php echo APIURL; ?>api/GetProjects',
-                data: fd,
+                url: '<?php echo APIURL; ?>api/GetProjects?token='+token+'&email='+username,
+                //data: fd,
                 processData: false,
                 contentType: false,
-                type: 'POST',
+                type: 'GET',
                 success: function (data) {
                     var html = '';
 

@@ -116,15 +116,7 @@ if(isset($_COOKIE['token']) && $_COOKIE['token'] != ''){
   </script>
 
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRYLGYTFWG"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
-    gtag('config', 'G-XRYLGYTFWG');
-  </script>
   <meta charset="utf-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">

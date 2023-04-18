@@ -34,7 +34,7 @@ session_start();
 
 
 
-  if(!isset($_POST['project_id']) && $_POST['project_id'] == ''){
+  if(!isset($_GET['project_id']) && $_GET['project_id'] == ''){
 
     header('Location: collaterals.php');
 
@@ -42,28 +42,18 @@ session_start();
 
 
 
-  $curl = curl_init();
-
-
+    $curl = curl_init();
 
     curl_setopt_array($curl, array(
-
-      CURLOPT_URL => APIURL.'api/GetProjectDetails',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS =>'{"token":"'.$_COOKIE['token'].'","project_id":"'.$_POST['project_id'].'"}',
-      CURLOPT_HTTPHEADER => array(
-        'Content-Type: application/json'
-      ),
-
+    CURLOPT_URL => APIURL.'api/GetProjectDetails?token='.$_COOKIE['token'].'&project_id='.$_GET['project_id'],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
     ));
-
-
 
     $response = curl_exec($curl);
 
@@ -74,6 +64,7 @@ session_start();
     
 
     $result = json_decode($response);
+    //echo'<pre>';print_r($result);exit;
 
 
 
@@ -122,22 +113,23 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/lightgallery.css" />
     <!-- <link rel="stylesheet" href="https://partners.saisuncity.com/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css"
-        integrity="sha512-Velp0ebMKjcd9RiCoaHhLXkR1sFoCCWXNp6w4zj1hfMifYB5441C+sKeBl/T/Ka6NjBiRfBBQRaQq65ekYz3UQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/ekko-lightbox.css" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/swiper-bundle.min.css">
 
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="css/aos.css" rel="stylesheet">
+    <link href="css/select2.min.css" rel="stylesheet" />
 
 </head>
 
 
 
 <style>
+body{
+    font-family: "Roboto", sans-serif !important;
+}
     .nav-pills .nav-link,
     .nav-pills .show>.nav-link {
 
@@ -964,9 +956,6 @@ session_start();
         margin: 20px auto;
     }
 
-    #third-main span {
-    padding: 0px 10px;
-}
 
     #homescreen {
         background: none !important;
@@ -1185,12 +1174,12 @@ session_start();
 
             <div class="row mt-2">
 
-                <!-- <div class="col-4 eagle-icon"><a id="download_brochure" class="mybtn" href="<?php echo $brouchure; ?>"
+                <div class="col-4 eagle-icon"><a id="download_brochure" class="mybtn" href="<?php echo $brouchure; ?>"
                         download><img src="img/pdf.png">
 
                         <p>Brochure</p>
 
-                    </a></div> -->
+                    </a></div>
 
                 <!--   <div class="col-4 eagle-icon"><a class="mybtn" href="<?php echo $brouchure; ?>" download><img src="img/pdf.png">
 
@@ -1370,31 +1359,25 @@ session_start();
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script src="js/jquery-ui.js"></script>
 
-<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/jquery-migrate-3.0.0.min.js"></script>
 
 <script src="js/lightgallery-all.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
 
-<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script src="js/aos.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="js/html2canvas.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"
-    integrity="sha512-YibiFIKqwi6sZFfPm5HNHQYemJwFbyyYHjrr3UT+VobMt/YBo1kBxgui5RWc4C3B4RJMYCdCAJkbXHt+irKfSA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/ekko-lightbox.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="js/select2.min.js"></script>
 
 
 <script type="text/javascript">
@@ -1438,11 +1421,7 @@ session_start();
 <script>
     function myFunction(cnt) {
 
-        gtag('event', 'ProjectCollateral', {
-            'event_category': 'SMSSCRIPT',
-            'event_label': 'CopySMSScript',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-                                                    });
+       
         
 
         mixpanel.track("Copy SMS Script", {
@@ -1643,11 +1622,7 @@ session_start();
 
     $(document).on("click", '.whatsapp', function () {
 
-        gtag('event', 'ProjectCollateral', {
-            'event_category': 'WhatsApp',
-            'event_label': 'WhatsAppText',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-        });
+      
       
 
          
@@ -1671,11 +1646,7 @@ session_start();
         }
     });
     $(document).on("click", '.whatsapp-video', function () {
-        gtag('event', 'ProjectCollateral', {
-            'event_category': 'video',
-            'event_label': 'WhatsAppVideo',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-        });
+        
        
           
 
@@ -1724,10 +1695,17 @@ session_start();
 <script type="text/javascript">
 
     $(document).ready(function () {
+        if (navigator.onLine) {
+            console.log("You are online!");
+            $('#AddProfile').show();
+        }else{
+            console.log("You are offline!");
+            $('#AddProfile').hide();
+        }
 
         // $('#lightgallery5').lightGallery();
 
-        download: true
+        //download: true
 
     });
 
@@ -1741,11 +1719,7 @@ session_start();
         var html = '';
         var type = id.split(' ').join('_');
 
-        gtag('event', 'ProjectCollateral', {
-            'event_category': id,
-            'event_label': 'open',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-                                                    });
+        
         
           
 
@@ -2027,11 +2001,7 @@ session_start();
         }
 
         var id = $(this).data('id');
-        gtag('event', 'ProjectCollateral', {
-            'event_category': id,
-            'event_label': 'OpenModal',
-            'value': '<?php echo $_COOKIE['username']; ?>'
-        });
+        
          
 
         mixpanel.track(id + " Open Modal", {
@@ -2154,15 +2124,43 @@ session_start();
     })
 
 
-$(document).on('click', '#download_brochure', function () {
-    mixpanel.track("Download Brohcure", {
-        "PageName": lastPathSegment.replace(".php", ""),
-        "collateral": "Project Collateral",
-        "ProjectName":project_name,
-        "$user_id": "<?php echo $_COOKIE['username']; ?>",
-        "collateralevent": "Download Brohcure",
+    $(document).on('click', '#download_brochure', function () {
+
+        AddDataToAudit('Brochure','Download brochure');
+        
+        mixpanel.track("Download Brohcure", {
+            "PageName": lastPathSegment.replace(".php", ""),
+            "collateral": "Project Collateral",
+            "ProjectName":project_name,
+            "$user_id": "<?php echo $_COOKIE['username']; ?>",
+            "collateralevent": "Download Brohcure",
+        });
+    })
+
+    function AddDataToAudit(collateral,collateral_event) {
+        var fd = new FormData();
+        var project_id = '<?php echo $_GET['project_id'] ?>';
+        fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+        fd.append('project_id', project_id);
+        fd.append('collateral', collateral);
+        fd.append('collateral_event', collateral_event);
+
+        $.ajax({
+            url: '<?php echo APIURL; ?>api/AddDataToAudit',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function (data) {
+
+                console.log(data);
+
+
+            }
+
     });
-})
+        
+    }
 
 
 $(document).on('click', '#lg-download', function () {
@@ -2180,11 +2178,7 @@ $(document).on('click', '#lg-download', function () {
 
     $(document).on('click', '#Emailer', function () {
 
-        gtag('event', 'ProjectCollateral', {
-            'event_category': 'Emailer',
-            'event_label': 'OpenModal',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-                                                    });
+      
         mixpanel.track("<?php echo $_COOKIE['username']; ?>", {
             "PageName": lastPathSegment.replace(".php", ""),
             "collateral": "Emailer",
@@ -2411,11 +2405,7 @@ $(document).on('click', '#lg-download', function () {
         $("#loading").show();
         
 
-        gtag('event', 'ProjectCollateral', {
-            'event_category': 'Emailer',
-            'event_label': 'SendEmail',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-        });
+      
 
         mixpanel.track("Emailer SendEmail", {
             "PageName": lastPathSegment.replace(".php", ""),
@@ -2485,21 +2475,24 @@ $(document).on('click', '#lg-download', function () {
 
         var fd = new FormData();
 
-        fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+        var project_id = '<?php echo $_GET['project_id'] ?>';
+        var token = '<?php echo $_COOKIE['token'] ?>';
 
-        fd.append('project_id', '<?php echo $_POST['project_id'] ?>');
+        // fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+
+        // fd.append('project_id', '<?php echo $_GET['project_id'] ?>');
 
         $.ajax({
 
-            url: '<?php echo APIURL; ?>api/GetProjectDetails',
+            url: '<?php echo APIURL; ?>api/GetProjectDetails?token='+token+'&project_id='+project_id,
 
-            data: fd,
+            //data: fd,
 
             processData: false,
 
             contentType: false,
 
-            type: 'POST',
+            type: 'GET',
 
             success: function (data) {
 
@@ -2519,31 +2512,32 @@ $(document).on('click', '#lg-download', function () {
 
         var token = '<?php echo $_COOKIE['token'] ?>';
 
-        var fd = new FormData();
+        //var fd = new FormData();
 
 
-        fd.append('token', token);
+        // fd.append('token', token);
 
-        fd.append('username', '<?php echo $_COOKIE['username'] ?>');
+        // fd.append('username', '<?php echo $_COOKIE['username'] ?>');
+        var profile_id = '';
+        var username = '<?php echo $_COOKIE['username'] ?>';
 
         $.ajax({
 
-            url: '<?php echo APIURL; ?>api/GetCDCProfile',
+            url: '<?php echo APIURL; ?>api/GetCDCProfile?token='+token+'&profile_id='+profile_id+'&username='+username,
 
-            data: fd,
-
-            async: false,
-
-            type: 'POST',
-
+            //data: fd,
+            processData: false,
+            contentType: false,
+            type: 'GET',
             success: function (data) {
                 var html = '';
 
                 //html += ' <li class="nav-item col-4" role="presentation">';
 
                 html += '   <option  data-profile-name="Default" data-name="<?php echo $_COOKIE['name']; ?>" data-mobile="<?php echo $ChannelPartner->mobile ; ?>" data-email="<?php echo $_COOKIE['username']; ?>" data-rera-no="<?php echo $ChannelPartner->rerano; ?>" data-logo-path="<?php echo $ChannelPartner->company_logo; ?>">Default</option>';
-
-                html += '   <option  value="create_profile">Create Profile</option>';
+                if (navigator.onLine) {
+                    html += '   <option  value="create_profile">Create Profile</option>';
+                }
                 // html += '    </li>';
 
                 if (data.ProfileCDCData.length > 0) {
@@ -2558,13 +2552,7 @@ $(document).on('click', '#lg-download', function () {
 
                 $(".select2").html(html);
 
-            },
-
-            cache: false,
-
-            contentType: false,
-
-            processData: false
+            }
 
         })
 
@@ -2583,11 +2571,7 @@ $(document).on('click', '#lg-download', function () {
 
     $(document).on('click', '#AddProfile', function (e) {
 
-        gtag('event', 'ProjectCollateral', {
-            'event_category': 'CdcProfile',
-            'event_label': 'create',
-            'value': '<?php echo $_COOKIE['username'] ?>'
-        });
+        
 
         
 

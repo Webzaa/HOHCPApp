@@ -20,14 +20,16 @@
     /* padding-bottom: 28px; */
     height: 100vh;
     overflow: hidden;
+    font-family: "Roboto", sans-serif !important;
     background-repeat: no-repeat;
     background-position: center;
   }
+
   form#ProjectLeads {
     padding: 0;
 }
 </style>
-<form id="ProjectLeads" action="project_collateral.php" method="POST">
+<form id="ProjectLeads" action="project_collateral.php" method="GET">
     <input type="hidden" name="project_id" id="project_id">
     
 </form>
@@ -35,7 +37,7 @@
     <section id="third-main">
         <div class="container">
             <div class="row d-flex justify-content-between">
-                <div class="col-lg-6 col-9"><a href="homescreen.php"><img src="img/lessthanarrow-new.png" class="singlearrow"></a><span>Download Collateral</span></div>
+                <div class="col-lg-6 col-9"><a href="homescreen.php"><img src="img/lessthanarrow-new.png" class="singlearrow"></a>&nbsp;&nbsp;<span>Download Collateral</span></div>
                 <div class="col-lg-6 col-3"> <button type="button btn" class="pagesixhelp" data-bs-toggle="modal" data-bs-target="#myModal">Help</button> </div>
             </div>
         </div>
@@ -59,12 +61,13 @@
             </div>
         </div>
     </section>
+    
+<script src="js/bootstrap.bundle.min.js"></script>
 
+<script src="js/jquery.min.js"></script>
 
+<script src="js/jquery-ui.js"></script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 
      $('#loading').hide(); 
@@ -84,18 +87,19 @@
 
         function GetProjects() {
             var fd = new FormData();
-
-            fd.append('token', '<?php echo $_COOKIE['token'] ?>');
-            fd.append('email', '<?php echo $_COOKIE['username'] ?>');
+            var token = '<?php echo $_COOKIE['token'] ?>';
+            var username = '<?php echo $_COOKIE['username'] ?>';
+            //fd.append('token', '<?php echo $_COOKIE['token'] ?>');
+            //fd.append('email', '<?php echo $_COOKIE['username'] ?>');
 
             console.log(fd)
 
             $.ajax({
-                url: '<?php echo APIURL; ?>api/GetProjects',
-                data: fd,
+                url: '<?php echo APIURL; ?>api/GetProjects?token='+token+'&email='+username,
+                //data: fd,
                 processData: false,
                 contentType: false,
-                type: 'POST',
+                type: 'GET',
                 success: function (data) {
                     var html = '';
 

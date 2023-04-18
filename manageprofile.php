@@ -109,7 +109,7 @@ if($user->company_logo != ''){
     body {
 
         height: 1800px !important;
-        font-family: 'Montserrat';
+       font-family: "Roboto", sans-serif !important;
         font-weight: 600;
 
     }
@@ -206,7 +206,7 @@ if($user->company_logo != ''){
         <div class="row d-flex justify-content-between manageprofile">
 
             <div class="col-lg-6 col-9"><a href="profile.php"><img src="img/lessthanarrow-new.png" class="singlearrow"></a>
-               &nbsp; <span> Manage Profile </span>
+                <span> Manage Profile </span>
             </div>
 
             <div class="col-lg-6 col-3"> <button type="button btn" class="pagesixhelp" data-bs-toggle="modal"
@@ -555,13 +555,15 @@ if($user->company_logo != ''){
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="js/jquery-ui.js"></script>
 
 <script type="text/javascript">
+
+
     $("#rera_expiry_date").datepicker({
         changeMonth: true,
         changeYear: true,
@@ -580,6 +582,15 @@ if($user->company_logo != ''){
     });
 
     $(document).ready(function() {
+
+        
+        if (navigator.onLine) {
+            console.log("You are online!");
+            $('#update_user').show();
+        }else{
+            console.log("You are offline!");
+            $('#update_user').hide();
+        }
         $('#loading').hide();
     })
     
