@@ -1174,12 +1174,12 @@ body{
 
             <div class="row mt-2">
 
-                <div class="col-4 eagle-icon"><a id="download_brochure" class="mybtn" href="<?php echo $brouchure; ?>"
+                <!-- <div class="col-4 eagle-icon"><a id="download_brochure" class="mybtn" href="<?php echo $brouchure; ?>"
                         download><img src="img/pdf.png">
 
                         <p>Brochure</p>
 
-                    </a></div>
+                    </a></div> -->
 
                 <!--   <div class="col-4 eagle-icon"><a class="mybtn" href="<?php echo $brouchure; ?>" download><img src="img/pdf.png">
 
@@ -1366,6 +1366,8 @@ body{
 <script src="js/jquery-ui.js"></script>
 
 <script src="js/jquery-migrate-3.0.0.min.js"></script>
+<script src="js/1.12.0_jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 <script src="js/lightgallery-all.js"></script>
 

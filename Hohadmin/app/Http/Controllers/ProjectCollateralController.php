@@ -94,7 +94,7 @@ class ProjectCollateralController extends Controller
                  $message ='Dear Partner new collateral details have been update in '.$project_name.' project to help you sell better. Go ahead and share it with your prospects Now!! HIRANANDANI';
                 $mobile = $value->mobile;
                 $templateID = '1507167099763338828';
-                $SMS = $this->SendSMS($mobile,$message,$templateID,'HIRANA');
+                //$SMS = $this->SendSMS($mobile,$message,$templateID,'HIRANA');
             }
         }
         $title = 'Project Collateral';
@@ -146,8 +146,8 @@ class ProjectCollateralController extends Controller
             
         }
        
-        
-        return response()->json(['message'=>$message, 'SMS'=>$SMS, 'status'=>'Project has been created successfully.',"redirect_url"=>url('project')]);
+        // 'SMS'=>$SMS,
+        return response()->json(['message'=>$message, 'status'=>'Project has been created successfully.',"redirect_url"=>url('project')]);
   
         //return redirect()->route('project.index')->with('success','project Collateral has been created successfully.');
     }

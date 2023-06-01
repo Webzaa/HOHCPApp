@@ -54,6 +54,7 @@ Route::delete('CollateralImage/{id}', [App\Http\Controllers\MapCollateralImageCo
 Route::get('download/{id}', [App\Http\Controllers\ProjectController::class,'ZipFile']);
 Route::get('project-active/{id}', [App\Http\Controllers\ProjectController::class,'StatusUpdate']);
 Route::get('cp-active/{id}', [App\Http\Controllers\ChannelPartnerController::class,'StatusUpdate']);
+Route::get('UpdateCPProject/{id}', [App\Http\Controllers\ChannelPartnerController::class,'UpdateCPProjectDetails']);
 Route::get('lead-status-approved/{id}', [App\Http\Controllers\LeadController::class,'StatusUpdateApproved']);
 Route::get('lead-status-rejected/{id}', [App\Http\Controllers\LeadController::class,'StatusUpdateRejected']);
 Route::get('sm-active/{id}', [App\Http\Controllers\SalesManagerController::class,'StatusUpdate']);

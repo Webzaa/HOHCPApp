@@ -811,6 +811,7 @@ $(document).on('click',".exploder",function(){
     });
 
     function GetLeads(id) {
+      $("#loading").show();
 
       var fd = new FormData();
 
@@ -819,38 +820,25 @@ $(document).on('click',".exploder",function(){
       var time_filter =  $('input[name="time_filter"]:checked').val();
 
       
-
+      var token = '<?php echo $_COOKIE['token'] ?>';
+      var username = '<?php echo $_COOKIE['username'] ?>';
       fd.append('token', '<?php echo $_COOKIE['token'] ?>');
-
       fd.append('username', '<?php echo $_COOKIE['username'] ?>');
-
       fd.append('status', status);
-
       fd.append('time_filter', time_filter);
-
       fd.append('id', id);
-
-
-
-
-
-
-
 
 
       $.ajax({
 
-        url: '<?php echo APIURL; ?>api/GetLeads',
-
+        url: '<?php echo APIURL; ?>api/GetLeads?token='+token+'&username='+username+'&status='+status+'&time_filter='+time_filter+'&id='+id,
         data: fd,
-
         processData: false,
-
         contentType: false,
-
-        type: 'POST',
+        type: 'GET',
 
         success: function (data) {
+          $("#loading").hide();
 
           console.log(data);  
 
@@ -894,7 +882,7 @@ $(document).on('click',".exploder",function(){
 
                   html += '<td><button type="button" class="btn btn-success exploder">';
 
-                  html += '<span class="glyphicon glyphicon-search"> &nbsp; Approved &nbsp; <i class="fa-solid fa-angle-down"></i></span>';
+                  html += '<span class="glyphicon glyphicon-search"> &nbsp; '+i.lead_status+' &nbsp; <i class="fa-solid fa-angle-down"></i></span>';
 
                   html += '</button></td>';    
 

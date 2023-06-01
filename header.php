@@ -123,30 +123,22 @@ if(isset($_COOKIE['token']) && $_COOKIE['token'] != ''){
 
   <title>HOH Mobile App</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="./css/stylenewest.css">
-
+  
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/responsive.css">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-
-  <link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/all.min.css" />
+  <link href="css/smoothness/jquery-ui.css" rel="Stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
 
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/jquery.min.js"></script>
 
   <script>
     $(document).on('click', '.dropup', function () {
@@ -157,36 +149,7 @@ if(isset($_COOKIE['token']) && $_COOKIE['token'] != ''){
     })
   </script>
 
-  <!-- Hotjar Tracking Code for https://cpapp.houseofhiranandani.com/ -->
-  <script>
-      (function (h, o, t, j, a, r) {
-        h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
-        h._hjSettings = { hjid: 3319567, hjsv: 6 };
-        a = o.getElementsByTagName('head')[0];
-        r = o.createElement('script'); r.async = 1;
-        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-        a.appendChild(r);
-      })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-  </script>
 
-  <script type="text/javascript">
-    window._mfq = window._mfq || [];
-    (function () {
-      var mf = document.createElement("script");
-      mf.type = "text/javascript"; mf.defer = true;
-      mf.src = "//cdn.mouseflow.com/projects/50d2a29a-9cd1-4542-95a9-fcbc687c27c6.js";
-      document.getElementsByTagName("head")[0].appendChild(mf);
-    })();
-  </script>
-
-  <script type="text/javascript">
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "fd2le02ady");
-  </script>
-</head>
 
 <style type="text/css">
 

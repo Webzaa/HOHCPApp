@@ -84,8 +84,8 @@ class ApiController extends Controller
      function SendNotification($title,$message){
         //$title = "Notification Title";
         //$message = "Notification Message";
-        $icon = "https://houseofhiranandani-prioritycircle.in//H-logo.png";
-        $url = "https://houseofhiranandani-prioritycircle.in/";
+        $icon = "https://cpapp.houseofhiranandani.com//H-logo.png";
+        $url = "https://cpapp.houseofhiranandani.com/";
         
         $apiKey = "f40f80e560d7896362389892f66225f5";
 
@@ -142,8 +142,8 @@ class ApiController extends Controller
 
     function SendNotificationTOsubscriber($title,$message,$SUBSCRIBER_ID){
 
-        $icon = "https://houseofhiranandani-prioritycircle.in//H-logo.png";
-        $url = "https://houseofhiranandani-prioritycircle.in/";
+        $icon = "https://cpapp.houseofhiranandani.com/H-logo.png";
+        $url = "https://cpapp.houseofhiranandani.com/";
         $subscriber = $SUBSCRIBER_ID;
 
         $apiKey = "f40f80e560d7896362389892f66225f5";
@@ -211,33 +211,85 @@ class ApiController extends Controller
     }
     
     
+    public function VerifyOTPLogin(){
+        
+        try{
+            $user = User::where('remember_token', request('token'))->get();
+            
+            if(isset($user[0]['name'])){
+                $MapUserIp = DB::table('map_user_ip')->select('id','user_id')->where('user_id','=',request('user_id'))->where('otp','=',request('OTP'))->where('is_otp_expired','=','N')->get();
+                //->where('ip_address','=',request('ip_address'))
+               
+                if(isset($MapUserIp[0]->user_id)){
+                    //dd($user[0]->email);exit;
+                    $channelPartner = DB::table('channel_partner')->select('is_active')->where('email_id','=',$user[0]->email)->get();
+
+                    DB::table('map_user_ip')
+                    ->where('id', $MapUserIp[0]->id)
+                    ->update([
+                            'is_otp_expired' => 'Y'
+                            ]);
+              
+                    
+                    return response()->json(['success' => true, 'user' => $user, 'msg' => 'You have Login Successfully', 'status' => $channelPartner[0]->is_active]); 
+                }
+                else{
+                    return response()->json(['success'=> false,'msg'=> 'Wrong OTP.']);
+                }
+                
+            }
+            else{
+                return response()->json(['success'=> false,'msg'=> 'User not found!']);
+            }
+            
+        }
+        catch(\Exception $e){
+            return response()->json(['success'=> false,'msg'=> $e->getMessage()]);
+            
+        }
+        
+        
+    } 
+    
+   
     public function login(){ 
         //echo request('email');exit;
         try{
-            if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
+            // if(Auth::attempt(['email' => request('email')])){ 
+            $user = User::where('mobile', request('mobile'))->get();
+            if (isset($user[0]['id'])) {
 
 
-                $user = Auth::user();
-                $MapUserIP = DB::table('map_user_ip')->select('ip_address')->where('user_id','=',$user->id)->get();
-               
+                //$user = Auth::user($uservalid);
+                //dd($uservalid);exit;
+                $user_id = $user[0]['id'];
+                $MapUserIP = DB::table('map_user_ip')->select('ip_address')->where('user_id','=',$user_id)->get();
+                
+                $OTP = random_int(100000, 999999);
+                $mobile = $user[0]->mobile;
+                $templateID = "1507166799793980309";
+                $message = "Welcome to HOH Priority Circle. Your unique registration code is $OTP
+                Hiranandani Team.";
+                
+                $SMS = $this->SendSMS($mobile,$message,$templateID,'HIRANA');
 
                 
                     
-                $data=array('user_id'=>$user->id,"ip_address"=>request('ip_address'),"latitude"=>request('latitude'),"longitude"=>request('longitude'));
+                $data=array('user_id'=>$user_id,"ip_address"=>request('ip_address'),"latitude"=>request('latitude'),"longitude"=>request('longitude'),"otp"=> $OTP);
                 DB::table('map_user_ip')->insert($data); 
 
                 
-                $channelPartner = DB::table('channel_partner')->select('is_active')->where('email_id','=',request('email'))->get();
+                $channelPartner = DB::table('channel_partner')->select('is_active')->where('mobile','=',request('mobile'))->get();
                 $random = Str::random(40);
                  
-                User::where('email', request('email'))
+                User::where('mobile', request('mobile'))
                         ->update([
                             'remember_token' => $random
                             ]);
-                $success['token'] =  $user->createToken($random)->accessToken;                
+                $success['token'] =  $random;                
                 
                 
-                $LocationData=array('user_id'=>$user->id,"latitude"=>request('latitude'),"longitude"=>request('longitude'));
+                $LocationData=array('user_id'=>$user_id,"latitude"=>request('latitude'),"longitude"=>request('longitude'));
                 DB::table('map_user_location')->insert($LocationData);
 
                
@@ -251,10 +303,10 @@ class ApiController extends Controller
                 //     return response()->json(['success' => false, 'msg' => 'Your not eligible for login'], $this-> successStatus);
                 // }
                    
-                return response()->json(['success' => $success, 'user' => $user, 'msg' => 'You have Login Successfully', 'status' => $channelPartner[0]->is_active], $this-> successStatus);
+                return response()->json(['success' => $success,'SMS'=>$SMS, 'user' => $user, 'msg' => 'You have Login Successfully', 'status' => $channelPartner[0]->is_active], $this-> successStatus);
             } 
             else{ 
-                return response()->json(['success' => false,'error'=>'Unauthorised', 'msg' => 'Wrong Username/Password'], 401); 
+                return response()->json(['success' => false,'error'=>'Unauthorised', 'msg' => 'Wrong Username/Password'], 200); 
             } 
         }
         catch(\Exception $e){
@@ -332,6 +384,7 @@ class ApiController extends Controller
                 $data['email_id'] = request('email');
                 $data['rerano'] = request('rerano');
                 $data['mobile'] = request('mobile');
+                $data['location'] = request('location');
                 $channel_partner = ChannelPartner::create($data);
                 
 
@@ -402,22 +455,23 @@ class ApiController extends Controller
                 $Data = $this->CallApi($Jsondata,$url);  
                 
                 $LeadCount = 0 ;
+                $BookCount = 0 ;
                 if($Data->status != 'error'){
                     $LeadCount = count($Data->data);
                 }
                 
 
-                ##  API for count of Boookings
-                $BookAPI['cpid'] = $ChannelPartner[0]->cp_id;
-                $BookAPI['api_key'] = 'WEBZAA-25052022-HDIK7-DGDDT-UITQW';     
-                $Bookurl = 'https://net4hoh.sperto.co.in/_api/api_auth_cp_book_unit.php';
+                // ##  API for count of Boookings
+                // $BookAPI['cpid'] = $ChannelPartner[0]->cp_id;
+                // $BookAPI['api_key'] = 'WEBZAA-25052022-HDIK7-DGDDT-UITQW';     
+                // $Bookurl = 'https://net4hoh.sperto.co.in/_api/api_auth_cp_book_unit.php';
                 
-                $BookJsondata = json_encode($BookAPI);
-                $BookData = $this->CallApi($BookJsondata,$Bookurl);   
-                $BookCount = 0 ;
-                if($BookData->status != 'error'){
-                    $BookCount = count($BookCount->data);
-                }
+                // $BookJsondata = json_encode($BookAPI);
+                // $BookData = $this->CallApi($BookJsondata,$Bookurl);   
+                // $BookCount = 0 ;
+                // if($BookData->status != 'error'){
+                //     $BookCount = count($BookCount->data);
+                // }
                
                 
             }
@@ -1378,7 +1432,73 @@ HIRANANDANI";
         }
     }
 
-   
+      
+    public function SendBrochureEmailer(){
+        
+        try{
+            $user = User::where('remember_token', request('token'))->get();
+            if(isset($user[0]['name'])){
+                $tokden = request('token');
+                $Url = request('Url');
+                $project_name = request('project_name');
+                                
+                $msg = '<a href="'.$Url.'" class="btn btn-primary"><p class="text-center">Click here to download brochure</p></a>';
+                
+             
+                $data['key'] = '816c8dca-4372-4667-b808-02da535d5178';
+                $data['otp'] = '123456';
+                $data['att'] = $Url ;
+                $data['name'] = $user[0]['name'];
+                $data['email'] = $user[0]['email'];//'webzaa.dev@gmail.com';//'webzaa.dev@gmail.com';// $user[0]['email']; 
+                $data['subject'] = 'Hiranandani Estate '.$project_name.' Brochure';
+                //$data['body'] ='<h1>This is test mail</h1>';                
+                $data['body'] = $msg;
+                
+                $sendmail = $this->SendEmail($data);
+
+              
+                return response()->json(['success'=> true,'sendmail'=>$sendmail, 'msg'=> 'Mail sent successfully.']);
+            } 
+            else{ 
+                return response()->json(['error'=>'Unauthorised'], 401); 
+            }
+        }
+        catch(\Exception $e){
+            return response()->json(['success'=> false,'msg'=> $e->getMessage()]);
+            
+        }
+    }
+
+    
+    
+    public function AddDataToAudit()
+    {
+        
+        try{
+            $user = User::where('remember_token', request('token'))->get();
+            if(isset($user[0]['name'])){
+
+                $user_id = $user[0]->id;
+                $project_id =request('project_id');
+                $collateral =request('collateral');
+                $collateral_event =request('collateral_event');
+                
+                $data=array('user_id'=>$user_id,"project_id"=>$project_id,"collateral"=>$collateral,"collateral_event"=>$collateral_event);
+                $AuditData = DB::table('audit_event')->insert($data);
+                    
+                return response()->json(['success'=> true,'AuditData' => $AuditData], $this-> successStatus); 
+            }
+            else{ 
+                return response()->json(['error'=>'Unauthorised'], 401); 
+            }
+        
+            
+        }
+        catch(\Exception $e){
+            return response()->json(['success'=> false,'msg'=> $e->getMessage()]);
+            
+        }
+    }
     
     
 }

@@ -636,7 +636,7 @@ section#eagleridge-carousel {
 
                 <div class="col-12" style="overflow: hidden;">
 
-                    <img src="<?php echo $main_banner; ?>" style="height: 300px;">
+                    <img src="<?php echo $main_banner; ?>" style="height: 250px;">
 
                 </div>
 

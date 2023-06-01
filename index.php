@@ -104,12 +104,13 @@
         $password = $_POST['password'];
         $rerano = $_POST['rerano'];   
         $mobile = $_POST['mobile'];  
+        $location = $_POST['location']; 
 
         $url = APIURL.'api/Register';
 
         //print_r($_POST);exit;
 
-        $data = '{"email":"'.$email.'","name": "'.$name.'","rerano": "'.$rerano.'","mobile": "'.$mobile.'","password": "'.$password.'"}';
+        $data = '{"email":"'.$email.'","name": "'.$name.'","rerano": "'.$rerano.'","mobile": "'.$mobile.'","password": "'.$password.'","location": "'.$location.'"}';
         //print_r($data);exit;
 
         $result = APICALL($url,$data);
@@ -433,7 +434,14 @@ h4.head{
     text-align: center;
 }
 
+.refresh {
+    position: absolute;
+    right: 5%;
+    top: 2%;
+}
 </style>
+
+
 <div id="loading" >
 <div class="container">
     <div class="row">
@@ -491,7 +499,13 @@ h4.head{
     </section>
 
     <!-- section one end -->
+    <div class="refresh">
+    <i class="fa-solid fa-arrows-rotate fa-rotate-180" style="color:#fff; font-size: 30px;"></i>       
+   
 
+
+
+                    </div>
 
 
     <section id="login" style="display: none;">
@@ -508,17 +522,17 @@ h4.head{
 
                         <div class="mb-3 col-lg-4 col-md-10 offset-lg-4 offset-md-1">
 
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email ID" name="username">
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Mobile Number" name="username">
                             <input type="hidden" name="lat" id="lat">
                             <input type="hidden" name="long" id="long">
 
                         </div>
 
-                        <div class="mb-3 col-lg-4 col-md-10 offset-lg-4 offset-md-1 mt-4">
+                        <!-- <div class="mb-3 col-lg-4 col-md-10 offset-lg-4 offset-md-1 mt-4">
 
                             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
 
-                        </div>
+                        </div> -->
 
                         <div class="button col-lg-10 col-md-10 offset-md-1">
 
@@ -550,7 +564,7 @@ h4.head{
 
                         </div>
 
-                        <?php if($msg != ''){ ?>
+                     
 
                         <div class="mb-3 col-lg-4 col-md-8 offset-lg-4 offset-md-2 mt-4">
 
@@ -558,7 +572,7 @@ h4.head{
 
                         </div>
 
-                        <?php } ?>
+                        
 
                         
 
@@ -668,6 +682,12 @@ h4.head{
 
                         </div>
 
+                        <div class="mb-3 col-lg-4 col-md-10 offset-lg-4 offset-md-1">
+
+                            <input type="text" class="form-control" id="location"  aria-describedby="reraHelp" placeholder="Location*" name="location">
+
+                        </div>
+
 
 
                         <div class="button  col-lg-10 col-md-10 offset-md-1 text-center">
@@ -720,13 +740,34 @@ h4.head{
 
     </footer>
 
+    <!-- Modal -->
+    <div id="NetworkModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="    margin: 35% auto;">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">ERROR</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Please check your internet connection and try again</p>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="ErrorClose" data-dismiss="modal"style="background-color: #941f53;    color: #fff;">Ok</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
     
     <script src="js/bootstrap.bundle.min.js"></script>
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/1.12.0_jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    
     <script type="text/javascript">
@@ -809,14 +850,23 @@ h4.head{
     getLocation();
     
         $(document).on('click','#LoginAgent',function(e){
+
+            if (navigator.onLine) {
+                //continue;
+                $("#error_msg").html('');
+            }   
+            else{
+                $("#error_msg").html('Connect to a stable internet connection to login.');
+                return false;
+
+            }
             e.preventDefault();
             $("#loading").show();
             //$(".form-signin").submit();
             var fd = new FormData();
 
            
-            fd.append('email', $('#exampleInputEmail1').val());
-            fd.append('password', $('#exampleInputPassword1').val());
+            fd.append('mobile', $('#exampleInputEmail1').val());
             fd.append('latitude', $('#lat').val());
             fd.append('longitude', $('#long').val());
             fd.append('ip_address', '<?php echo $ip_address; ?>');
@@ -827,12 +877,18 @@ h4.head{
                 processData: false,
                 contentType: false,
                 type: 'POST',
+                statusCode: {
+                    401: function(response){
+                        $("#loading").hide();
+                        $("#error_msg").html(response.msg);
+                    }
+                },
                 success: function (data) {
                    
 
                     if(data.msg == "You have Login Successfully"){
-                        var token =  data.success.token.name
-                        var user_id = data.user.id;
+                        var token =  data.success.token
+                        var user_id = data.user[0].id;
                         
                         $("#error_msg").html('OTP sent to your registrered mobile number.');
                         $("#token").val(token);
@@ -848,6 +904,7 @@ h4.head{
                         }, 2000);
                     }
                     else{
+                        $("#loading").hide();
                         $("#error_msg").html(data.msg);
                     }
                    
@@ -857,12 +914,23 @@ h4.head{
                 }
             });
         })
-
-       if (navigator.onLine) {
-            console.log("You are online!");
-        }else{
-            console.log("You are offline!");
-        }
+        $(window).on('load', function() { 
+            //$('#NetworkModal').modal('toggle');
+            if (navigator.onLine) {
+                $("#error_msg").html('');
+                
+            
+                console.log("You are online!");
+            }else{
+                $('#NetworkModal').modal('show');
+                $("#error_msg").html('Connect to a stable internet connection to login.');
+                //$("#NetworkModal").modal('toggle');
+                console.log("You are offline!");
+            }
+        })
+        $(document).on('click','#ErrorClose',function(){
+            $('#NetworkModal').modal('hide');
+        })
         if (window.matchMedia('(display-mode: standalone)').matches) {  
             setTimeout(function () {
                 $('#main').hide();
@@ -1044,6 +1112,7 @@ h4.head{
                 var email = $("#email").val();
                 var mobile = $("#mobile").val();
                 var rerano = $("#rerano").val();
+                var location = $("#location").val();
                 var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
 
                 $("#fname").removeClass('error');
@@ -1051,6 +1120,7 @@ h4.head{
                 $("#mobile").removeClass('error');
                 $("#rerano").removeClass('error');
                 $("#pwd").removeClass('error');
+                $("#location").removeClass('error');
 
                 
                 console.log(testEmail.test(email));
@@ -1085,6 +1155,11 @@ h4.head{
                     valid = false;
                 }
 
+                if(location.trim() == ''){
+                    $("#location").addClass('error');
+                    valid = false;
+                }
+
                 if(pwd != cnfpassword){
                     alert('Password not match !!!');
                     valid = false;
@@ -1092,6 +1167,10 @@ h4.head{
 
                 if(!valid){
                     return false;
+                }
+                else{
+                    
+                 $("#loading").show();
                 }
 
                 $("#register").submit();
@@ -1105,6 +1184,14 @@ h4.head{
             
 
         });
+
+        $(document).on('click', ".refresh", function () {
+            $('#loading').show();    
+            console.log('Cache delete');     
+            //CacheStorage.delete('HOHCPCache-v1');
+            caches.delete('HOHCPCache-v1');
+            location.reload();
+        })
 
     </script>
 

@@ -31,7 +31,7 @@ class ChannelPartnerController extends Controller
           
         
         if($search != ''){            
-            $ChannelPartner = ChannelPartner::where('cp_name','LIKE','%'.$search.'%')->orWhere('email_id','LIKE','%'.$search.'%')->orWhere('mobile','LIKE','%'.$search.'%')->orWhere('address','LIKE','%'.$search.'%')->orWhere('departments','LIKE','%'.$search.'%')->paginate(100);
+            $ChannelPartner = ChannelPartner::where('cp_name','LIKE','%'.$search.'%')->orWhere('email_id','LIKE','%'.$search.'%')->orWhere('mobile','LIKE','%'.$search.'%')->orWhere('address','LIKE','%'.$search.'%')->orWhere('departments','LIKE','%'.$search.'%')->paginate(500);
         }
         else{
             $ChannelPartner = ChannelPartner::orderBy('id','desc')->paginate(100);
@@ -243,6 +243,34 @@ class ChannelPartnerController extends Controller
                     ->select('is_active','mobile')
                     ->where('id','=',$id)
                     ->first();
+
+        //print_r($project);exit;
+        if($channel_partner->is_active == '1'){
+            $is_active = '0';
+        }
+        else{
+            $is_active = '1';
+        }
+
+        $values = array('is_active'=> $is_active);
+
+        DB::table('channel_partner')->where('id',$id)->update($values);
+
+        if($is_active == '1'){
+            $message ='Congratulations you are now a registered partner with House of Hiranandani. Go ahead and add leads to begin your journey.';
+            $mobile = $channel_partner->mobile;
+            $templateID = '1507167099710202829';
+            $SMS = $this->SendSMS($mobile,$message,$templateID,'HIRANA');
+        }
+
+        return redirect()->route('ChannelPartner.index')->with('success','Channel partner status has been updated successfully.');
+    }
+
+    public function UpdateCPProjectDetails($id)
+    {
+       $channel_partner = DB::table('channel_partner')
+                    ->select('channel_partner.*')
+                    ->get();
 
         //print_r($project);exit;
         if($channel_partner->is_active == '1'){

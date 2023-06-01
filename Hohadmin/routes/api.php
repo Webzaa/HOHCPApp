@@ -30,11 +30,11 @@ Route::post('Verify-OTP', [App\Http\Controllers\Api\ApiController::class,'Verify
 
 Route::post('Register', [App\Http\Controllers\Api\ApiController::class,'Register'])->name('Register');
 
-Route::post('GetProjects', [App\Http\Controllers\Api\ApiController::class,'GetProjects'])->name('GetProjects');
+Route::get('GetProjects', [App\Http\Controllers\Api\ApiController::class,'GetProjects'])->name('GetProjects');
 
 Route::post('GetDashboardDetails', [App\Http\Controllers\Api\ApiController::class,'GetDashboardDetails'])->name('GetDashboardDetails');
 
-Route::post('GetLeads', [App\Http\Controllers\Api\ApiController::class,'GetLeads'])->name('GetLeads');
+Route::get('GetLeads', [App\Http\Controllers\Api\ApiController::class,'GetLeads'])->name('GetLeads');
 
 Route::post('GetUserDetails', [App\Http\Controllers\Api\ApiController::class,'GetUserDetails'])->name('GetUserDetails');
 
@@ -42,7 +42,7 @@ Route::post('UpdateUserDetails', [App\Http\Controllers\Api\ApiController::class,
 
 Route::post('AddLead', [App\Http\Controllers\Api\ApiController::class,'AddLead'])->name('AddLead');
 
-Route::post('GetProjectDetails', [App\Http\Controllers\Api\ApiController::class,'GetProjectDetails'])->name('GetProjectDetails');
+Route::get('GetProjectDetails', [App\Http\Controllers\Api\ApiController::class,'GetProjectDetails'])->name('GetProjectDetails');
 
 Route::post('forgot-password', [App\Http\Controllers\Api\ApiController::class,'ForgotPassword'])->name('forgot-password');
 
@@ -54,10 +54,16 @@ Route::post('ResendOTP', [App\Http\Controllers\Api\ApiController::class,'ResendO
 
 Route::post('AddCDCProfile', [App\Http\Controllers\Api\ApiController::class,'AddCDCProfile'])->name('AddCDCProfile');
 
-Route::post('GetCDCProfile', [App\Http\Controllers\Api\ApiController::class,'GetCDCProfile'])->name('GetCDCProfile');
+Route::get('GetCDCProfile', [App\Http\Controllers\Api\ApiController::class,'GetCDCProfile'])->name('GetCDCProfile');
 
 Route::post('AddCPToApp', [App\Http\Controllers\Api\ApiController::class,'AddCPToApp'])->name('AddCPToApp');
 
 Route::post('UpdateDeviceID', [App\Http\Controllers\Api\ApiController::class,'UpdateDeviceID'])->name('UpdateDeviceID');
 
 Route::post('GetUserLoginHistory', [App\Http\Controllers\Api\ApiController::class,'GetUserLoginHistory'])->name('GetUserLoginHistory');
+
+Route::post('SendBrochureEmailer', [App\Http\Controllers\Api\ApiController::class,'SendBrochureEmailer'])->name('SendBrochureEmailer');
+
+Route::post('VerifyOTPLogin', [App\Http\Controllers\Api\ApiController::class,'VerifyOTPLogin'])->name('VerifyOTPLogin');
+
+Route::post('AddDataToAudit', [App\Http\Controllers\Api\ApiController::class,'AddDataToAudit'])->name('AddDataToAudit');
